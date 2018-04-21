@@ -1,0 +1,31 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Fast Fuzzy Search Demo</title>
+</head>
+
+<body>
+  <input id="query" type="text" placeholder="Search Query">
+  <div id="results">
+  </div>
+  <script>
+    const inputField = document.getElementById('query');
+    inputField.onkeyup = (event) => {
+      const queryText = inputField.value;
+      console.log('GOT', queryText);
+      const request = new XMLHttpRequest();
+      request.open('GET', `/search/${queryText}`, true);
+      request.onload = () => {
+        console.log('Got raw', request.responseText);
+        const data = JSON.parse(request.responseText);
+        console.log('Got result', data);
+      };
+      request.send();
+    }
+    console.log('Hello world!')
+  </script>
+</body>
+</html>
