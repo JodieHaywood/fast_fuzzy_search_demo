@@ -1,0 +1,6 @@
+# Web Demo For Fast Fuzzy Search
+
+```
+pip install fast_fuzzy_search
+python3 server.py
+```
