@@ -5,27 +5,39 @@
   <meta charset="utf-8">
 
   <title>Fast Fuzzy Search Demo</title>
+  <style>
+* {
+  text-align: center;
+  font-size: 30pt;
+  margin: 20px;
+}
+  </style>
 </head>
 
 <body>
-  <input id="query" type="text" placeholder="Search Query">
-  <div id="results">
+  <div id="main">
+    <h1>Fast Fuzzy Search Demo</h1>
+    <input id="query" type="text" placeholder="Search Query">
+    <div id="results">
+    </div>
+    <script>
+      const inputField = document.getElementById('query');
+      const resultNode = document.getElementById('results');
+      inputField.onkeyup = (event) => {
+        const queryText = inputField.value;
+        console.log('GOT', queryText);
+        const request = new XMLHttpRequest();
+        request.open('GET', `/search/${queryText}`, true);
+        request.onload = () => {
+          console.log('Got raw', request.responseText);
+          const data = JSON.parse(request.responseText);
+          resultNode.innerHTML = (data.map(res => `<div>${res[1]}</div>`)).join('');
+          console.log('Got result', data);
+        };
+        request.send();
+      }
+      console.log('Hello world!')
+    </script>
   </div>
-  <script>
-    const inputField = document.getElementById('query');
-    inputField.onkeyup = (event) => {
-      const queryText = inputField.value;
-      console.log('GOT', queryText);
-      const request = new XMLHttpRequest();
-      request.open('GET', `/search/${queryText}`, true);
-      request.onload = () => {
-        console.log('Got raw', request.responseText);
-        const data = JSON.parse(request.responseText);
-        console.log('Got result', data);
-      };
-      request.send();
-    }
-    console.log('Hello world!')
-  </script>
 </body>
 </html>
